@@ -1,0 +1,489 @@
+******************************* simple ***********************************
+== Physical Plan ==
+Union
+:- *(1) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24 AS ucl#200, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#267, Lower Confidence Limit#23 AS lcl2#278, Upper Confidence Limit#24 AS ucl2#290]
+:  +- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
++- *(2) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#375, Upper Confidence Limit#24 AS ucl#376, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#377, Lower Confidence Limit#23 AS lcl2#378, Upper Confidence Limit#24 AS ucl2#379]
+   +- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
+
+
+******************************* extended ***********************************
+== Parsed Logical Plan ==
+Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, ucl#200, avg#267, lcl2#278, ucl#200 AS ucl2#290]
++- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, ucl#200, avg#267, lcl#190 AS lcl2#278]
+   +- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, ucl#200, ((cast(lcl#190 as double) + cast(ucl#200 as double)) / cast(2 as double)) AS avg#267]
+      +- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, Upper Confidence Limit#24 AS ucl#200]
+         +- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24]
+            +- Union false, false
+               :- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv
+               +- Project [Year#16 AS Year#94, State#17 AS State#95, County#18 AS County#96, State FIPS Code#19 AS State FIPS Code#97, County FIPS Code#20 AS County FIPS Code#98, Combined FIPS Code#21 AS Combined FIPS Code#99, Birth Rate#22 AS Birth Rate#100, Lower Confidence Limit#23 AS Lower Confidence Limit#101, Upper Confidence Limit#24 AS Upper Confidence Limit#102]
+                  +- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv
+
+== Analyzed Logical Plan ==
+Year: string, State: string, County: string, State FIPS Code: string, County FIPS Code: string, Combined FIPS Code: string, Birth Rate: string, lcl: string, ucl: string, avg: double, lcl2: string, ucl2: string
+Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, ucl#200, avg#267, lcl2#278, ucl#200 AS ucl2#290]
++- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, ucl#200, avg#267, lcl#190 AS lcl2#278]
+   +- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, ucl#200, ((cast(lcl#190 as double) + cast(ucl#200 as double)) / cast(2 as double)) AS avg#267]
+      +- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, lcl#190, Upper Confidence Limit#24 AS ucl#200]
+         +- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24]
+            +- Union false, false
+               :- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv
+               +- Project [Year#16 AS Year#94, State#17 AS State#95, County#18 AS County#96, State FIPS Code#19 AS State FIPS Code#97, County FIPS Code#20 AS County FIPS Code#98, Combined FIPS Code#21 AS Combined FIPS Code#99, Birth Rate#22 AS Birth Rate#100, Lower Confidence Limit#23 AS Lower Confidence Limit#101, Upper Confidence Limit#24 AS Upper Confidence Limit#102]
+                  +- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv
+
+== Optimized Logical Plan ==
+Union false, false
+:- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24 AS ucl#200, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#267, Lower Confidence Limit#23 AS lcl2#278, Upper Confidence Limit#24 AS ucl2#290]
+:  +- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv
++- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#375, Upper Confidence Limit#24 AS ucl#376, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#377, Lower Confidence Limit#23 AS lcl2#378, Upper Confidence Limit#24 AS ucl2#379]
+   +- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv
+
+== Physical Plan ==
+Union
+:- *(1) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24 AS ucl#200, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#267, Lower Confidence Limit#23 AS lcl2#278, Upper Confidence Limit#24 AS ucl2#290]
+:  +- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
++- *(2) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#375, Upper Confidence Limit#24 AS ucl#376, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#377, Lower Confidence Limit#23 AS lcl2#378, Upper Confidence Limit#24 AS ucl2#379]
+   +- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
+
+******************************** codegen **********************************
+Found 2 WholeStageCodegen subtrees.
+== Subtree 1 / 2 (maxMethodCodeSize:864; maxConstantPoolSize:131(0.20% used); numInnerClasses:0) ==
+*(1) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24 AS ucl#200, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#267, Lower Confidence Limit#23 AS lcl2#278, Upper Confidence Limit#24 AS ucl2#290]
++- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
+
+Generated code:
+/* 001 */ public Object generate(Object[] references) {
+/* 002 */   return new GeneratedIteratorForCodegenStage1(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ // codegenStageId=1
+/* 006 */ final class GeneratedIteratorForCodegenStage1 extends org.apache.spark.sql.execution.BufferedRowIterator {
+/* 007 */   private Object[] references;
+/* 008 */   private scala.collection.Iterator[] inputs;
+/* 009 */   private scala.collection.Iterator inputadapter_input_0;
+/* 010 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] project_mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 011 */
+/* 012 */   public GeneratedIteratorForCodegenStage1(Object[] references) {
+/* 013 */     this.references = references;
+/* 014 */   }
+/* 015 */
+/* 016 */   public void init(int index, scala.collection.Iterator[] inputs) {
+/* 017 */     partitionIndex = index;
+/* 018 */     this.inputs = inputs;
+/* 019 */     inputadapter_input_0 = inputs[0];
+/* 020 */     project_mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(12, 352);
+/* 021 */
+/* 022 */   }
+/* 023 */
+/* 024 */   protected void processNext() throws java.io.IOException {
+/* 025 */     while ( inputadapter_input_0.hasNext()) {
+/* 026 */       InternalRow inputadapter_row_0 = (InternalRow) inputadapter_input_0.next();
+/* 027 */
+/* 028 */       boolean inputadapter_isNull_7 = inputadapter_row_0.isNullAt(7);
+/* 029 */       UTF8String inputadapter_value_7 = inputadapter_isNull_7 ?
+/* 030 */       null : (inputadapter_row_0.getUTF8String(7));
+/* 031 */       boolean inputadapter_isNull_8 = inputadapter_row_0.isNullAt(8);
+/* 032 */       UTF8String inputadapter_value_8 = inputadapter_isNull_8 ?
+/* 033 */       null : (inputadapter_row_0.getUTF8String(8));
+/* 034 */
+/* 035 */       // common sub-expressions
+/* 036 */
+/* 037 */       boolean inputadapter_isNull_0 = inputadapter_row_0.isNullAt(0);
+/* 038 */       UTF8String inputadapter_value_0 = inputadapter_isNull_0 ?
+/* 039 */       null : (inputadapter_row_0.getUTF8String(0));
+/* 040 */       boolean inputadapter_isNull_1 = inputadapter_row_0.isNullAt(1);
+/* 041 */       UTF8String inputadapter_value_1 = inputadapter_isNull_1 ?
+/* 042 */       null : (inputadapter_row_0.getUTF8String(1));
+/* 043 */       boolean inputadapter_isNull_2 = inputadapter_row_0.isNullAt(2);
+/* 044 */       UTF8String inputadapter_value_2 = inputadapter_isNull_2 ?
+/* 045 */       null : (inputadapter_row_0.getUTF8String(2));
+/* 046 */       boolean inputadapter_isNull_3 = inputadapter_row_0.isNullAt(3);
+/* 047 */       UTF8String inputadapter_value_3 = inputadapter_isNull_3 ?
+/* 048 */       null : (inputadapter_row_0.getUTF8String(3));
+/* 049 */       boolean inputadapter_isNull_4 = inputadapter_row_0.isNullAt(4);
+/* 050 */       UTF8String inputadapter_value_4 = inputadapter_isNull_4 ?
+/* 051 */       null : (inputadapter_row_0.getUTF8String(4));
+/* 052 */       boolean inputadapter_isNull_5 = inputadapter_row_0.isNullAt(5);
+/* 053 */       UTF8String inputadapter_value_5 = inputadapter_isNull_5 ?
+/* 054 */       null : (inputadapter_row_0.getUTF8String(5));
+/* 055 */       boolean inputadapter_isNull_6 = inputadapter_row_0.isNullAt(6);
+/* 056 */       UTF8String inputadapter_value_6 = inputadapter_isNull_6 ?
+/* 057 */       null : (inputadapter_row_0.getUTF8String(6));
+/* 058 */       boolean project_isNull_9 = false;
+/* 059 */       double project_value_9 = -1.0;
+/* 060 */       if (false || 2.0D == 0) {
+/* 061 */         project_isNull_9 = true;
+/* 062 */       } else {
+/* 063 */         boolean project_isNull_10 = true;
+/* 064 */         double project_value_10 = -1.0;
+/* 065 */         boolean project_isNull_11 = inputadapter_isNull_7;
+/* 066 */         double project_value_11 = -1.0;
+/* 067 */         if (!inputadapter_isNull_7) {
+/* 068 */           final String project_doubleStr_0 = inputadapter_value_7.toString();
+/* 069 */           try {
+/* 070 */             project_value_11 = Double.valueOf(project_doubleStr_0);
+/* 071 */           } catch (java.lang.NumberFormatException e) {
+/* 072 */             final Double d = (Double) Cast.processFloatingPointSpecialLiterals(project_doubleStr_0, false);
+/* 073 */             if (d == null) {
+/* 074 */               project_isNull_11 = true;
+/* 075 */             } else {
+/* 076 */               project_value_11 = d.doubleValue();
+/* 077 */             }
+/* 078 */           }
+/* 079 */         }
+/* 080 */         if (!project_isNull_11) {
+/* 081 */           boolean project_isNull_13 = inputadapter_isNull_8;
+/* 082 */           double project_value_13 = -1.0;
+/* 083 */           if (!inputadapter_isNull_8) {
+/* 084 */             final String project_doubleStr_1 = inputadapter_value_8.toString();
+/* 085 */             try {
+/* 086 */               project_value_13 = Double.valueOf(project_doubleStr_1);
+/* 087 */             } catch (java.lang.NumberFormatException e) {
+/* 088 */               final Double d = (Double) Cast.processFloatingPointSpecialLiterals(project_doubleStr_1, false);
+/* 089 */               if (d == null) {
+/* 090 */                 project_isNull_13 = true;
+/* 091 */               } else {
+/* 092 */                 project_value_13 = d.doubleValue();
+/* 093 */               }
+/* 094 */             }
+/* 095 */           }
+/* 096 */           if (!project_isNull_13) {
+/* 097 */             project_isNull_10 = false; // resultCode could change nullability.
+/* 098 */
+/* 099 */             project_value_10 = project_value_11 + project_value_13;
+/* 100 */
+/* 101 */           }
+/* 102 */
+/* 103 */         }
+/* 104 */         if (project_isNull_10) {
+/* 105 */           project_isNull_9 = true;
+/* 106 */         } else {
+/* 107 */           project_value_9 = (double)(project_value_10 / 2.0D);
+/* 108 */         }
+/* 109 */       }
+/* 110 */       project_mutableStateArray_0[0].reset();
+/* 111 */
+/* 112 */       project_mutableStateArray_0[0].zeroOutNullBytes();
+/* 113 */
+/* 114 */       if (inputadapter_isNull_0) {
+/* 115 */         project_mutableStateArray_0[0].setNullAt(0);
+/* 116 */       } else {
+/* 117 */         project_mutableStateArray_0[0].write(0, inputadapter_value_0);
+/* 118 */       }
+/* 119 */
+/* 120 */       if (inputadapter_isNull_1) {
+/* 121 */         project_mutableStateArray_0[0].setNullAt(1);
+/* 122 */       } else {
+/* 123 */         project_mutableStateArray_0[0].write(1, inputadapter_value_1);
+/* 124 */       }
+/* 125 */
+/* 126 */       if (inputadapter_isNull_2) {
+/* 127 */         project_mutableStateArray_0[0].setNullAt(2);
+/* 128 */       } else {
+/* 129 */         project_mutableStateArray_0[0].write(2, inputadapter_value_2);
+/* 130 */       }
+/* 131 */
+/* 132 */       if (inputadapter_isNull_3) {
+/* 133 */         project_mutableStateArray_0[0].setNullAt(3);
+/* 134 */       } else {
+/* 135 */         project_mutableStateArray_0[0].write(3, inputadapter_value_3);
+/* 136 */       }
+/* 137 */
+/* 138 */       if (inputadapter_isNull_4) {
+/* 139 */         project_mutableStateArray_0[0].setNullAt(4);
+/* 140 */       } else {
+/* 141 */         project_mutableStateArray_0[0].write(4, inputadapter_value_4);
+/* 142 */       }
+/* 143 */
+/* 144 */       if (inputadapter_isNull_5) {
+/* 145 */         project_mutableStateArray_0[0].setNullAt(5);
+/* 146 */       } else {
+/* 147 */         project_mutableStateArray_0[0].write(5, inputadapter_value_5);
+/* 148 */       }
+/* 149 */
+/* 150 */       if (inputadapter_isNull_6) {
+/* 151 */         project_mutableStateArray_0[0].setNullAt(6);
+/* 152 */       } else {
+/* 153 */         project_mutableStateArray_0[0].write(6, inputadapter_value_6);
+/* 154 */       }
+/* 155 */
+/* 156 */       if (inputadapter_isNull_7) {
+/* 157 */         project_mutableStateArray_0[0].setNullAt(7);
+/* 158 */       } else {
+/* 159 */         project_mutableStateArray_0[0].write(7, inputadapter_value_7);
+/* 160 */       }
+/* 161 */
+/* 162 */       if (inputadapter_isNull_8) {
+/* 163 */         project_mutableStateArray_0[0].setNullAt(8);
+/* 164 */       } else {
+/* 165 */         project_mutableStateArray_0[0].write(8, inputadapter_value_8);
+/* 166 */       }
+/* 167 */
+/* 168 */       if (project_isNull_9) {
+/* 169 */         project_mutableStateArray_0[0].setNullAt(9);
+/* 170 */       } else {
+/* 171 */         project_mutableStateArray_0[0].write(9, project_value_9);
+/* 172 */       }
+/* 173 */
+/* 174 */       if (inputadapter_isNull_7) {
+/* 175 */         project_mutableStateArray_0[0].setNullAt(10);
+/* 176 */       } else {
+/* 177 */         project_mutableStateArray_0[0].write(10, inputadapter_value_7);
+/* 178 */       }
+/* 179 */
+/* 180 */       if (inputadapter_isNull_8) {
+/* 181 */         project_mutableStateArray_0[0].setNullAt(11);
+/* 182 */       } else {
+/* 183 */         project_mutableStateArray_0[0].write(11, inputadapter_value_8);
+/* 184 */       }
+/* 185 */       append((project_mutableStateArray_0[0].getRow()));
+/* 186 */       if (shouldStop()) return;
+/* 187 */     }
+/* 188 */   }
+/* 189 */
+/* 190 */ }
+
+== Subtree 2 / 2 (maxMethodCodeSize:864; maxConstantPoolSize:131(0.20% used); numInnerClasses:0) ==
+*(2) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#375, Upper Confidence Limit#24 AS ucl#376, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#377, Lower Confidence Limit#23 AS lcl2#378, Upper Confidence Limit#24 AS ucl2#379]
++- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
+
+Generated code:
+/* 001 */ public Object generate(Object[] references) {
+/* 002 */   return new GeneratedIteratorForCodegenStage2(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ // codegenStageId=2
+/* 006 */ final class GeneratedIteratorForCodegenStage2 extends org.apache.spark.sql.execution.BufferedRowIterator {
+/* 007 */   private Object[] references;
+/* 008 */   private scala.collection.Iterator[] inputs;
+/* 009 */   private scala.collection.Iterator inputadapter_input_0;
+/* 010 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] project_mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 011 */
+/* 012 */   public GeneratedIteratorForCodegenStage2(Object[] references) {
+/* 013 */     this.references = references;
+/* 014 */   }
+/* 015 */
+/* 016 */   public void init(int index, scala.collection.Iterator[] inputs) {
+/* 017 */     partitionIndex = index;
+/* 018 */     this.inputs = inputs;
+/* 019 */     inputadapter_input_0 = inputs[0];
+/* 020 */     project_mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(12, 352);
+/* 021 */
+/* 022 */   }
+/* 023 */
+/* 024 */   protected void processNext() throws java.io.IOException {
+/* 025 */     while ( inputadapter_input_0.hasNext()) {
+/* 026 */       InternalRow inputadapter_row_0 = (InternalRow) inputadapter_input_0.next();
+/* 027 */
+/* 028 */       boolean inputadapter_isNull_7 = inputadapter_row_0.isNullAt(7);
+/* 029 */       UTF8String inputadapter_value_7 = inputadapter_isNull_7 ?
+/* 030 */       null : (inputadapter_row_0.getUTF8String(7));
+/* 031 */       boolean inputadapter_isNull_8 = inputadapter_row_0.isNullAt(8);
+/* 032 */       UTF8String inputadapter_value_8 = inputadapter_isNull_8 ?
+/* 033 */       null : (inputadapter_row_0.getUTF8String(8));
+/* 034 */
+/* 035 */       // common sub-expressions
+/* 036 */
+/* 037 */       boolean inputadapter_isNull_0 = inputadapter_row_0.isNullAt(0);
+/* 038 */       UTF8String inputadapter_value_0 = inputadapter_isNull_0 ?
+/* 039 */       null : (inputadapter_row_0.getUTF8String(0));
+/* 040 */       boolean inputadapter_isNull_1 = inputadapter_row_0.isNullAt(1);
+/* 041 */       UTF8String inputadapter_value_1 = inputadapter_isNull_1 ?
+/* 042 */       null : (inputadapter_row_0.getUTF8String(1));
+/* 043 */       boolean inputadapter_isNull_2 = inputadapter_row_0.isNullAt(2);
+/* 044 */       UTF8String inputadapter_value_2 = inputadapter_isNull_2 ?
+/* 045 */       null : (inputadapter_row_0.getUTF8String(2));
+/* 046 */       boolean inputadapter_isNull_3 = inputadapter_row_0.isNullAt(3);
+/* 047 */       UTF8String inputadapter_value_3 = inputadapter_isNull_3 ?
+/* 048 */       null : (inputadapter_row_0.getUTF8String(3));
+/* 049 */       boolean inputadapter_isNull_4 = inputadapter_row_0.isNullAt(4);
+/* 050 */       UTF8String inputadapter_value_4 = inputadapter_isNull_4 ?
+/* 051 */       null : (inputadapter_row_0.getUTF8String(4));
+/* 052 */       boolean inputadapter_isNull_5 = inputadapter_row_0.isNullAt(5);
+/* 053 */       UTF8String inputadapter_value_5 = inputadapter_isNull_5 ?
+/* 054 */       null : (inputadapter_row_0.getUTF8String(5));
+/* 055 */       boolean inputadapter_isNull_6 = inputadapter_row_0.isNullAt(6);
+/* 056 */       UTF8String inputadapter_value_6 = inputadapter_isNull_6 ?
+/* 057 */       null : (inputadapter_row_0.getUTF8String(6));
+/* 058 */       boolean project_isNull_9 = false;
+/* 059 */       double project_value_9 = -1.0;
+/* 060 */       if (false || 2.0D == 0) {
+/* 061 */         project_isNull_9 = true;
+/* 062 */       } else {
+/* 063 */         boolean project_isNull_10 = true;
+/* 064 */         double project_value_10 = -1.0;
+/* 065 */         boolean project_isNull_11 = inputadapter_isNull_7;
+/* 066 */         double project_value_11 = -1.0;
+/* 067 */         if (!inputadapter_isNull_7) {
+/* 068 */           final String project_doubleStr_0 = inputadapter_value_7.toString();
+/* 069 */           try {
+/* 070 */             project_value_11 = Double.valueOf(project_doubleStr_0);
+/* 071 */           } catch (java.lang.NumberFormatException e) {
+/* 072 */             final Double d = (Double) Cast.processFloatingPointSpecialLiterals(project_doubleStr_0, false);
+/* 073 */             if (d == null) {
+/* 074 */               project_isNull_11 = true;
+/* 075 */             } else {
+/* 076 */               project_value_11 = d.doubleValue();
+/* 077 */             }
+/* 078 */           }
+/* 079 */         }
+/* 080 */         if (!project_isNull_11) {
+/* 081 */           boolean project_isNull_13 = inputadapter_isNull_8;
+/* 082 */           double project_value_13 = -1.0;
+/* 083 */           if (!inputadapter_isNull_8) {
+/* 084 */             final String project_doubleStr_1 = inputadapter_value_8.toString();
+/* 085 */             try {
+/* 086 */               project_value_13 = Double.valueOf(project_doubleStr_1);
+/* 087 */             } catch (java.lang.NumberFormatException e) {
+/* 088 */               final Double d = (Double) Cast.processFloatingPointSpecialLiterals(project_doubleStr_1, false);
+/* 089 */               if (d == null) {
+/* 090 */                 project_isNull_13 = true;
+/* 091 */               } else {
+/* 092 */                 project_value_13 = d.doubleValue();
+/* 093 */               }
+/* 094 */             }
+/* 095 */           }
+/* 096 */           if (!project_isNull_13) {
+/* 097 */             project_isNull_10 = false; // resultCode could change nullability.
+/* 098 */
+/* 099 */             project_value_10 = project_value_11 + project_value_13;
+/* 100 */
+/* 101 */           }
+/* 102 */
+/* 103 */         }
+/* 104 */         if (project_isNull_10) {
+/* 105 */           project_isNull_9 = true;
+/* 106 */         } else {
+/* 107 */           project_value_9 = (double)(project_value_10 / 2.0D);
+/* 108 */         }
+/* 109 */       }
+/* 110 */       project_mutableStateArray_0[0].reset();
+/* 111 */
+/* 112 */       project_mutableStateArray_0[0].zeroOutNullBytes();
+/* 113 */
+/* 114 */       if (inputadapter_isNull_0) {
+/* 115 */         project_mutableStateArray_0[0].setNullAt(0);
+/* 116 */       } else {
+/* 117 */         project_mutableStateArray_0[0].write(0, inputadapter_value_0);
+/* 118 */       }
+/* 119 */
+/* 120 */       if (inputadapter_isNull_1) {
+/* 121 */         project_mutableStateArray_0[0].setNullAt(1);
+/* 122 */       } else {
+/* 123 */         project_mutableStateArray_0[0].write(1, inputadapter_value_1);
+/* 124 */       }
+/* 125 */
+/* 126 */       if (inputadapter_isNull_2) {
+/* 127 */         project_mutableStateArray_0[0].setNullAt(2);
+/* 128 */       } else {
+/* 129 */         project_mutableStateArray_0[0].write(2, inputadapter_value_2);
+/* 130 */       }
+/* 131 */
+/* 132 */       if (inputadapter_isNull_3) {
+/* 133 */         project_mutableStateArray_0[0].setNullAt(3);
+/* 134 */       } else {
+/* 135 */         project_mutableStateArray_0[0].write(3, inputadapter_value_3);
+/* 136 */       }
+/* 137 */
+/* 138 */       if (inputadapter_isNull_4) {
+/* 139 */         project_mutableStateArray_0[0].setNullAt(4);
+/* 140 */       } else {
+/* 141 */         project_mutableStateArray_0[0].write(4, inputadapter_value_4);
+/* 142 */       }
+/* 143 */
+/* 144 */       if (inputadapter_isNull_5) {
+/* 145 */         project_mutableStateArray_0[0].setNullAt(5);
+/* 146 */       } else {
+/* 147 */         project_mutableStateArray_0[0].write(5, inputadapter_value_5);
+/* 148 */       }
+/* 149 */
+/* 150 */       if (inputadapter_isNull_6) {
+/* 151 */         project_mutableStateArray_0[0].setNullAt(6);
+/* 152 */       } else {
+/* 153 */         project_mutableStateArray_0[0].write(6, inputadapter_value_6);
+/* 154 */       }
+/* 155 */
+/* 156 */       if (inputadapter_isNull_7) {
+/* 157 */         project_mutableStateArray_0[0].setNullAt(7);
+/* 158 */       } else {
+/* 159 */         project_mutableStateArray_0[0].write(7, inputadapter_value_7);
+/* 160 */       }
+/* 161 */
+/* 162 */       if (inputadapter_isNull_8) {
+/* 163 */         project_mutableStateArray_0[0].setNullAt(8);
+/* 164 */       } else {
+/* 165 */         project_mutableStateArray_0[0].write(8, inputadapter_value_8);
+/* 166 */       }
+/* 167 */
+/* 168 */       if (project_isNull_9) {
+/* 169 */         project_mutableStateArray_0[0].setNullAt(9);
+/* 170 */       } else {
+/* 171 */         project_mutableStateArray_0[0].write(9, project_value_9);
+/* 172 */       }
+/* 173 */
+/* 174 */       if (inputadapter_isNull_7) {
+/* 175 */         project_mutableStateArray_0[0].setNullAt(10);
+/* 176 */       } else {
+/* 177 */         project_mutableStateArray_0[0].write(10, inputadapter_value_7);
+/* 178 */       }
+/* 179 */
+/* 180 */       if (inputadapter_isNull_8) {
+/* 181 */         project_mutableStateArray_0[0].setNullAt(11);
+/* 182 */       } else {
+/* 183 */         project_mutableStateArray_0[0].write(11, inputadapter_value_8);
+/* 184 */       }
+/* 185 */       append((project_mutableStateArray_0[0].getRow()));
+/* 186 */       if (shouldStop()) return;
+/* 187 */     }
+/* 188 */   }
+/* 189 */
+/* 190 */ }
+
+
+******************************** cost **********************************
+== Optimized Logical Plan ==
+Union false, false, Statistics(sizeInBytes=6.2 MiB)
+:- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24 AS ucl#200, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#267, Lower Confidence Limit#23 AS lcl2#278, Upper Confidence Limit#24 AS ucl2#290], Statistics(sizeInBytes=3.1 MiB)
+:  +- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv, Statistics(sizeInBytes=2.5 MiB)
++- Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#375, Upper Confidence Limit#24 AS ucl#376, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#377, Lower Confidence Limit#23 AS lcl2#378, Upper Confidence Limit#24 AS ucl2#379], Statistics(sizeInBytes=3.1 MiB)
+   +- Relation[Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] csv, Statistics(sizeInBytes=2.5 MiB)
+
+== Physical Plan ==
+Union
+:- *(1) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24 AS ucl#200, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#267, Lower Confidence Limit#23 AS lcl2#278, Upper Confidence Limit#24 AS ucl2#290]
+:  +- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
++- *(2) Project [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#375, Upper Confidence Limit#24 AS ucl#376, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#377, Lower Confidence Limit#23 AS lcl2#378, Upper Confidence Limit#24 AS ucl2#379]
+   +- FileScan csv [Year#16,State#17,County#18,State FIPS Code#19,County FIPS Code#20,Combined FIPS Code#21,Birth Rate#22,Lower Confidence Limit#23,Upper Confidence Limit#24] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex[file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_A..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Comb...
+
+
+******************************** formatted **********************************
+== Physical Plan ==
+Union (5)
+:- * Project (2)
+:  +- Scan csv  (1)
++- * Project (4)
+   +- Scan csv  (3)
+
+
+(1) Scan csv
+Output [9]: [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23, Upper Confidence Limit#24]
+Batched: false
+Location: InMemoryFileIndex [file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_Age_Group_15-19_in_the_United_States_by_County.csv]
+ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Combined FIPS Code:string,Birth Rate:string,Lower Confidence Limit:string,Upper Confidence Limit:string>
+
+(2) Project [codegen id : 1]
+Output [12]: [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#190, Upper Confidence Limit#24 AS ucl#200, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#267, Lower Confidence Limit#23 AS lcl2#278, Upper Confidence Limit#24 AS ucl2#290]
+Input [9]: [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23, Upper Confidence Limit#24]
+
+(3) Scan csv
+Output [9]: [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23, Upper Confidence Limit#24]
+Batched: false
+Location: InMemoryFileIndex [file:/Users/farinaz.ghasemi/repos/spark-java/data/NCHS_-_Teen_Birth_Rates_for_Age_Group_15-19_in_the_United_States_by_County.csv]
+ReadSchema: struct<Year:string,State:string,County:string,State FIPS Code:string,County FIPS Code:string,Combined FIPS Code:string,Birth Rate:string,Lower Confidence Limit:string,Upper Confidence Limit:string>
+
+(4) Project [codegen id : 2]
+Output [12]: [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23 AS lcl#375, Upper Confidence Limit#24 AS ucl#376, ((cast(Lower Confidence Limit#23 as double) + cast(Upper Confidence Limit#24 as double)) / 2.0) AS avg#377, Lower Confidence Limit#23 AS lcl2#378, Upper Confidence Limit#24 AS ucl2#379]
+Input [9]: [Year#16, State#17, County#18, State FIPS Code#19, County FIPS Code#20, Combined FIPS Code#21, Birth Rate#22, Lower Confidence Limit#23, Upper Confidence Limit#24]
+
+(5) Union
+

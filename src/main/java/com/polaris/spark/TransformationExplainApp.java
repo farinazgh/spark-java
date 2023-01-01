@@ -45,18 +45,19 @@ public class TransformationExplainApp {
                 .withColumn("lcl2", df.col("lcl"))
                 .withColumn("ucl2", df.col("ucl"));
         df.show();
-
+        System.out.println("******************************* simple ***********************************");
         df.explain("simple");
-        System.out.println("******************************************************************");
+
+        System.out.println("******************************* extended ***********************************");
         df.explain("extended");
-        System.out.println("******************************************************************");
 
+        System.out.println("******************************** codegen **********************************");
         df.explain("codegen");
-        System.out.println("******************************************************************");
 
+        System.out.println("******************************** cost **********************************");
         df.explain("cost");
-        System.out.println("******************************************************************");
 
+        System.out.println("******************************** formatted **********************************");
         df.explain("formatted");
 
     }
